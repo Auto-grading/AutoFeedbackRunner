@@ -1,0 +1,38 @@
+name: OpenAI Feedback
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  run_feedback_script:
+    runs-on: self-hosted
+
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+#      - name: Set Up Virtual Environment
+#        run: |
+#          python3 -m venv feedback_venv
+#          source feedback_venv/bin/activate
+#          python3 -m pip install --upgrade pip
+#          pip install openai
+
+      - name: Run Feedback Script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          source feedback_venv/bin/activate
+          python3 .github/workflows/feedback.py "lab3-01" "lab3.java" "${{ env.runs }}"
+
+      - name: Add and Commit Changes
+        run: |
+          git add feedback/*
+          git commit -m "Feedback File"
+
+      - name: Push Changes
+        run: |
+          git push
