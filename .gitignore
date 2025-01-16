@@ -1,0 +1,32 @@
+# Python-specific ignores
+__pycache__/            # Python bytecode caches
+*.pyc                   # Python compiled files
+*.pyo                   # Python optimized files
+*.pyd                   # Python dynamic library
+
+# Virtual environment (commonly used names)
+venv/                    # Virtual environment directory (if using venv)
+env/                     # Another common name for virtual environments
+
+# Environment variable files
+.env                     # .env file containing sensitive info (e.g., OpenAI API key)
+
+# IDE or editor-specific files
+.vscode/                 # VSCode configuration
+.idea/                   # PyCharm/IntelliJ IDEA configuration
+*.swp                    # Vim swap files
+*.swo                    # Vim swap files
+
+# Log files
+*.log                    # Log files
+
+# Dependencies (if any specific build directory is used)
+node_modules/            # Node.js dependencies (if using Node.js in your project)
+dist/                    # Distribution or build folder
+build/                   # Build directory (for compiled code)
+
+# Other temporary or OS-specific files
+.DS_Store                # macOS system file
+Thumbs.db                # Windows system file
+*.bak                    # Backup files
+*.tmp                    # Temporary files

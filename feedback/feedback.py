@@ -2,10 +2,33 @@ import os
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv, find_dotenv
 from textwrap import dedent
 from openai import OpenAI
 
 FILE_EXT = ".java"
+
+def load_environment_variables():
+    if not find_dotenv():
+        raise FileNotFoundError(".env file not found!")
+    load_dotenv()
+
+def get_readme(assignment_directory):
+    with open(f"{assignment_directory}/README.md") as readme:
+        return readme.read()
+
+
+def get_student_code(assignment_directory):
+    code_files = []
+
+    assignment_directory = Path(assignment_directory)
+    for file in assignment_directory.iterdir():
+        if file.is_file() and file.suffix == FILE_EXT:
+            with file.open("r") as code_file:
+                code_files.append(f"File {os.path.basename(file)}:\n{code_file.read()}")
+
+    return "\n".join(code_files)
+
 
 def get_prompt_description(feedback_categories):
     return dedent(f"""
@@ -25,22 +48,6 @@ def get_prompt_description(feedback_categories):
     Format your response in Markdown for easy readability.
     """)
 
-def get_readme(assignment_directory):
-    with open(f"{assignment_directory}/README.md") as readme:
-        return readme.read()
-
-
-def get_student_code(assignment_directory):
-    code_files = []
-
-    assignment_directory = Path(assignment_directory)
-    for file in assignment_directory.iterdir():
-        if file.is_file() and file.suffix == FILE_EXT:
-            with file.open("r") as code_file:
-                code_files.append(f"File {os.path.basename(file)}:\n{code_file.read()}")
-
-    return "\n".join(code_files)
-
 
 # Function to get feedback from GPT on the student's code
 def get_gpt_feedback(problem_description, code):
@@ -48,8 +55,10 @@ def get_gpt_feedback(problem_description, code):
     problem = f"Here is the problem description:\n{problem_description}"
     solution = f"Here is the student's code:\n{code}"
 
-    gpt_model = "gpt-4o-mini"  # Specify the GPT model to use
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # Initialize OpenAI client with API key
+    gpt_model = os.getenv("GPT_MODEL")
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+    # send the message to ChatGPT
     res = client.chat.completions.create(
         model=gpt_model,
         messages=[{"role": "user", "content": problem},
@@ -70,6 +79,9 @@ def create_feedback_file(content, feedback_run_number):
 
 def main():
     repo_path = sys.argv[1]
+
+    load_environment_variables()
+
     readme = get_readme(repo_path)
     student_code = get_student_code(repo_path)
     print(get_student_code(repo_path))
