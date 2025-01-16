@@ -69,10 +69,23 @@ def get_gpt_feedback(problem_description, code):
     return res.choices[0].message.content
 
 
+def get_feedback_run_number(assignment_directory):
+    runs_path = Path(f"{assignment_directory}/feedback_runs")
+    runs = 1
+    if os.path.exists(runs_path):
+        with open(runs_path, "r") as runs_file:
+            runs = int(runs_file.read())
+
+    with open(runs_path, "w") as runs_file:
+        runs_file.write(str(runs + 1))
+
+    return runs
+
+
 # Function to create the feedback file and save the generated feedback
-def create_feedback_file(content, feedback_run_number):
+def create_feedback_file(assignment_directory, content):
     # Save the feedback to a markdown file
-    feedback_file_path = f"feedback/feedback-{feedback_run_number}.md"
+    feedback_file_path = f"feedback/feedback-{get_feedback_run_number(assignment_directory)}.md"
     with open(feedback_file_path, "w") as feedback:
         feedback.write(content)
 
@@ -84,8 +97,9 @@ def main():
 
     readme = get_readme(repo_path)
     student_code = get_student_code(repo_path)
-    print(get_student_code(repo_path))
+    feedback = get_gpt_feedback(readme, student_code)
+    create_feedback_file(repo_path, feedback)
 
 
 if __name__ == "__main__":
-    main()
+    print(get_feedback_run_number("/home/joe/PycharmProjects/AutoFeedbackWorkflow/lab3-01"))
