@@ -94,6 +94,8 @@ def main():
     repo_path = sys.argv[1]
 
     load_environment_variables()
+    print(os.getenv("GPT_MODEL"))
+    exit(0)
 
     readme = get_readme(repo_path)
     student_code = get_student_code(repo_path)

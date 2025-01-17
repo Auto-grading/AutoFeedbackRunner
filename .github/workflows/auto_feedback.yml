@@ -1,4 +1,4 @@
-name: OpenAI Feedback
+name: Feedback
 
 on:
   issues:
@@ -14,17 +14,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-#      - name: Set Up Virtual Environment
-#        run: |
-#          python3 -m venv feedback_venv
-#          source feedback_venv/bin/activate
-#          python3 -m pip install --upgrade pip
-#          pip install openai
+      - name: Resolve Parent Directory
+        run: |
+          PARENT_DIR="../../../.."
+          echo "PARENT_DIR=$PARENT_DIR" >> $GITHUB_ENV
 
       - name: Run Feedback Script
         run: |
-          source feedback_venv/bin/activate
-          python3 
+          source "${{ env.PARENT_DIR }}/feedback_venv/bin/activate"
+          python3 "${{ env.PARENT_DIR }}/feedback/feedback.py "$pwd"
 
       - name: Push Feedback
         run: |

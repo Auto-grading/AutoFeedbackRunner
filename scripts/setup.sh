@@ -6,6 +6,21 @@ RUNNER_DIR=$PARENT_DIR/actions-runner
 
 source "$PARENT_DIR/.env"
 
+if ! command -v python3 &> /dev/null; then
+    echo "ERROR: Python 3 is not installed."
+    exit 1
+fi
+
+# create the oython virtual environment for running the auto feedback script
+python3 -m venv "$PARENT_DIR/auto_feedback_venv"
+
+# activate the venv
+source "$PARENT_DIR/auto_feedback_venv/bin/activate"
+
+# install the required packages
+pip install -r "$PARENT_DIR/requirements.txt"
+
+# set up the Github Actions Runner
 mkdir "$RUNNER_DIR"
 cd "$RUNNER_DIR"
 

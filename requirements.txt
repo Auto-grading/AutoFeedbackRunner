@@ -1,0 +1,5 @@
+# Required for loading environment variables from a .env file
+python-dotenv
+
+# Required for interacting with the OpenAI API
+openai
