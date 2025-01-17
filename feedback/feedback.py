@@ -102,4 +102,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print(get_feedback_run_number("/home/joe/PycharmProjects/AutoFeedbackWorkflow/lab3-01"))
+    main()
