@@ -8,16 +8,20 @@ from openai import OpenAI
 
 FILE_EXT = ".java"
 
+# Load the environment variables from the env file
 def load_environment_variables():
     if not find_dotenv():
-        raise FileNotFoundError(".env file not found!")
+        raise FileNotFoundError(".env file not found")
     load_dotenv()
 
+
+# Read the content from the repo's readme
 def get_readme(assignment_directory):
     with open(f"{assignment_directory}/README.md") as readme:
         return readme.read()
 
 
+# Read the student's code files in the repo
 def get_student_code(assignment_directory):
     code_files = []
 
@@ -30,21 +34,21 @@ def get_student_code(assignment_directory):
     return "\n".join(code_files)
 
 
-def get_prompt_description(feedback_categories):
+# Return the prompt description with instruction for how to review the code
+def get_prompt_description():
     return dedent(f"""
     You are a helpful code reviewing assistant.
     Act as a professional software engineer reviewing code written by an undergraduate computer science student.
     0. Review the code and the associated README file.
-    1. Focus on these aspects:
+    1. Do not Generate or suggest new code.
+    2. Do not Write explanations or examples of how to fix issues.
+    3. Do not Provide updates or revised versions of the code.
+    4. Focus on these aspects:
         - Code clarity (naming conventions, readability).
         - Use of comments (includes function and file header comments, does not comment the obvious)
         - Code structure and modularity.
         - Adherence to best practices (error handling, validation).
-    2. Be verbose in your observations.
-    3. Do not:
-        - Generate or suggest new code.
-        - Write explanations or examples of how to fix issues.
-        - Provide updates or revised versions of the code.
+    5. Be verbose in your observations.
     Format your response in Markdown for easy readability.
     """)
 
@@ -61,22 +65,31 @@ def get_gpt_feedback(problem_description, code):
     # send the message to ChatGPT
     res = client.chat.completions.create(
         model=gpt_model,
-        messages=[{"role": "user", "content": problem},
-                  {"role": "user", "content": solution}],
+        messages=[
+            {"role": "user", "content": get_prompt_description()},
+            {"role": "user", "content": problem},
+            {"role": "user", "content": solution}
+        ],
     )
 
     # Return the content of GPT's feedback
     return res.choices[0].message.content
 
 
+# Get the current feedback run number, increment it and store it in a file
 def get_feedback_run_number(assignment_directory):
-    runs_path = Path(f"{assignment_directory}/feedback_runs")
-    runs = 1
-    if os.path.exists(runs_path):
-        with open(runs_path, "r") as runs_file:
-            runs = int(runs_file.read())
+    feedback_runs_path = Path(f"{assignment_directory}/../feedback_runs")
 
-    with open(runs_path, "w") as runs_file:
+    # Get the number of runs
+    runs = 1
+    if os.path.exists(feedback_runs_path):
+        with open(feedback_runs_path, "r") as runs_file:
+            runs = int(runs_file.read())
+    else:
+        print("No feedback files generated yet")
+
+    # Increment the number of runs and store it in a file
+    with open(feedback_runs_path, "w") as runs_file:
         runs_file.write(str(runs + 1))
 
     return runs
@@ -84,21 +97,26 @@ def get_feedback_run_number(assignment_directory):
 
 # Function to create the feedback file and save the generated feedback
 def create_feedback_file(assignment_directory, content):
+    # create feedback directory if it does not already exist
+    feedback_dir = Path(f"{assignment_directory}/feedback")
+    os.makedirs(feedback_dir, exist_ok=True)
+
     # Save the feedback to a markdown file
-    feedback_file_path = f"feedback/feedback-{get_feedback_run_number(assignment_directory)}.md"
+    feedback_file_path = os.path.join(feedback_dir, f"feedback-{get_feedback_run_number(assignment_directory)}.md")
     with open(feedback_file_path, "w") as feedback:
         feedback.write(content)
 
 
+# Main function
 def main():
+    # Get the path of the repository passed in as a command line argument
     repo_path = sys.argv[1]
 
     load_environment_variables()
-    print(os.getenv("GPT_MODEL"))
-    exit(0)
 
     readme = get_readme(repo_path)
     student_code = get_student_code(repo_path)
+
     feedback = get_gpt_feedback(readme, student_code)
     create_feedback_file(repo_path, feedback)
 

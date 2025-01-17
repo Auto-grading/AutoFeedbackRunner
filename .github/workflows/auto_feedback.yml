@@ -9,7 +9,6 @@ jobs:
   run_feedback_script:
     runs-on: self-hosted
 
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -22,7 +21,7 @@ jobs:
       - name: Run Feedback Script
         run: |
           source "${{ env.PARENT_DIR }}/feedback_venv/bin/activate"
-          python3 "${{ env.PARENT_DIR }}/feedback/feedback.py "$pwd"
+          python3 "${{ env.PARENT_DIR }}/feedback/feedback.py" "$(pwd)"
 
       - name: Push Feedback
         run: |

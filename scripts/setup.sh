@@ -12,10 +12,10 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # create the oython virtual environment for running the auto feedback script
-python3 -m venv "$PARENT_DIR/auto_feedback_venv"
+python3 -m venv "$PARENT_DIR/feedback_venv"
 
 # activate the venv
-source "$PARENT_DIR/auto_feedback_venv/bin/activate"
+source "$PARENT_DIR/feedback_venv/bin/activate"
 
 # install the required packages
 pip install -r "$PARENT_DIR/requirements.txt"
