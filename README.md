@@ -1,5 +1,15 @@
 # How to Set up the Auto Feedback Runner
 
+## Prerequisites
+
+Before starting, make sure you have the following:
+
+- A Linux-based operating system
+- x86_64 Architecture
+- Python 3 Installed: ```sudo apt install python3```
+- Pip Installed: ```sudo apt install python3-pip```
+
+## Steps
 
 ### 0. Clone the Repository
 ```git@github.com:Auto-grading/AutoFeedbackRunner.git```
