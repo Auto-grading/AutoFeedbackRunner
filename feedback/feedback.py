@@ -78,21 +78,9 @@ def get_gpt_feedback(problem_description, code):
 
 # Get the current feedback run number, increment it and store it in a file
 def get_feedback_run_number(assignment_directory):
-    feedback_runs_path = Path(f"{assignment_directory}/../feedback_runs")
-
+    feedback_dir = Path(f"{assignment_directory}/feedback")
     # Get the number of runs
-    runs = 1
-    if os.path.exists(feedback_runs_path):
-        with open(feedback_runs_path, "r") as runs_file:
-            runs = int(runs_file.read())
-    else:
-        print("No feedback files generated yet")
-
-    # Increment the number of runs and store it in a file
-    with open(feedback_runs_path, "w") as runs_file:
-        runs_file.write(str(runs + 1))
-
-    return runs
+    return sum(entry.is_file() for entry in os.scandir(feedback_dir))
 
 
 # Function to create the feedback file and save the generated feedback
