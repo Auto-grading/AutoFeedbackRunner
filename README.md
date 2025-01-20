@@ -16,7 +16,7 @@ copy and paste your OpenAI API key after ```OPENAI_API_KEY=```
 
 ### 3. Configure the Runner
 
-Inside your organization on GitHub:
+Inside your organization on GitHub go to:
 
 Settings > Actions > Runners > New runner > New self-hosted runner
 
