@@ -1,9 +1,7 @@
 name: Feedback
 
 on:
-  issues:
-    types:
-      - opened
+  workflow_call:
 
 jobs:
   run_feedback_script:
