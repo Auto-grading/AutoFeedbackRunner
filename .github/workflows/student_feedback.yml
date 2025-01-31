@@ -8,4 +8,3 @@ on:
 jobs:
   call-external:
     uses: Auto-grading/AutoFeedbackRunner/.github/workflows/auto_feedback.yml@main
-

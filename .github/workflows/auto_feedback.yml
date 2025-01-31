@@ -4,6 +4,9 @@ on:
   workflow_call:
 
 jobs:
+  run_feedback_script:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Get Calling Repository Name
         run: echo "This workflow was triggered by ${{ github.repository }}"
