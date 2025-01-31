@@ -1,0 +1,10 @@
+name: Get Auto Feedback
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  call-external:
+    uses: Auto-grading/AutoFeedbackRunner/.github/workflows/auto_feedback.yml@main
