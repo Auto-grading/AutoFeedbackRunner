@@ -5,9 +5,6 @@ on:
 
 jobs:
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
       - name: Get Calling Repository Name
         run: echo "This workflow was triggered by ${{ github.repository }}"
 
