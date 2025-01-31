@@ -4,9 +4,6 @@ on:
   workflow_call:
 
 jobs:
-  run_feedback_script:
-    runs-on: self-hosted
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
