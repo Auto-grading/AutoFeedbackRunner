@@ -1,0 +1,12 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run_feedback_script:
+    runs-on: self-hosted
+
+    steps:
+      - name: test
+        run: echo "hello world"

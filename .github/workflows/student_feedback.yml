@@ -1,4 +1,4 @@
-name: Student Feedback
+name: Get Auto Feedback
 
 on:
   issues:
@@ -6,6 +6,13 @@ on:
       - opened
 
 jobs:
-  call-external:
-    uses: Auto-grading/AutoFeedbackRunner/.github/workflows/auto_feedback.yml@main  # Pointing to the external repo's workflow
-    secrets: inherit  # Allow secret inheritance if needed
+  trigger-external:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger external workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          repository: Auto-grading/AutoFeedbackRunner  # External repo
+          workflow: auto_feedback.yml  # External workflow file
+          ref: main  # Branch or tag of the external repo
