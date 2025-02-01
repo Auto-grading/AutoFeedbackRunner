@@ -6,6 +6,5 @@ on:
       - opened
 
 jobs:
-  runs-on: ubuntu-latest
   call-external:
     uses: Auto-grading/AutoFeedbackRunner/.github/workflows/auto_feedback.yml@main
