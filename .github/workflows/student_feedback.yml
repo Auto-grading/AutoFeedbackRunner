@@ -1,4 +1,4 @@
-name: Get Auto Feedback
+name: Student Feedback
 
 on:
   issues:
@@ -7,4 +7,5 @@ on:
 
 jobs:
   call-external:
-    uses: Auto-grading/AutoFeedbackRunner/.github/workflows/auto_feedback.yml@main
+    uses: Auto-grading/AutoFeedbackRunner/.github/workflows/auto_feedback.yml@main  # Pointing to the external repo's workflow
+    secrets: inherit  # Allow secret inheritance if needed

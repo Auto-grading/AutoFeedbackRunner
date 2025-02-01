@@ -1,33 +1,33 @@
-name: Feedback
+name: Auto Feedback
 
 on:
   workflow_call:
 
 jobs:
   run_feedback_script:
-    runs-on: self-hosted
+    runs-on: self-hosted  # The job will run on the self-hosted runner in the external repo
 
     steps:
-
-
-      - name: Checkout this repository
-        uses: actions/checkout@v4
-
       - name: Get Calling Repository Name
         run: echo "This workflow was triggered by ${{ github.repository }}"
 
-#      - name: Resolve Parent Directory
-#        run: |
-#          PARENT_DIR="../../../.."
-#          echo "PARENT_DIR=$PARENT_DIR" >> $GITHUB_ENV
-#
-#      - name: Run Feedback Script
-#        run: |
-#          source "${{ env.PARENT_DIR }}/feedback_venv/bin/activate"
-#          python3 "${{ env.PARENT_DIR }}/feedback/feedback.py" "$(pwd)"
-#
-#      - name: Push Feedback
-#        run: |
-#          git add feedback/*
-#          git commit -m "Feedback File"
-#          git push
+      - name: Checkout External Repository
+        uses: actions/checkout@v4
+        with:
+          repository: "${{ github.repository }}"  # Checkout the external repo
+
+      - name: Resolve Parent Directory
+        run: |
+          PARENT_DIR="../../../.."
+          echo "PARENT_DIR=$PARENT_DIR" >> $GITHUB_ENV
+
+      - name: Run Feedback Script
+        run: |
+          source "${{ env.PARENT_DIR }}/feedback_venv/bin/activate"
+          python3 "${{ env.PARENT_DIR }}/feedback/feedback.py" "$(pwd)"
+
+      - name: Push Feedback
+        run: |
+          git add feedback/*
+          git commit -m "Feedback File"
+          git push
