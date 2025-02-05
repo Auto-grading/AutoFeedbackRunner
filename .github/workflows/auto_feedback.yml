@@ -1,20 +1,17 @@
-name: Auto Feedback
+name: Feedback
 
 on:
-  workflow_call:
+  issues:
+    types:
+      - opened
 
 jobs:
   run_feedback_script:
     runs-on: self-hosted
 
     steps:
-      - name: Get Calling Repository Name
-        run: echo "This workflow was triggered by ${{ github.repository }}"
-
-      - name: Checkout External Repository
+      - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          repository: "${{ github.repository }}"
 
       - name: Resolve Parent Directory
         run: |
