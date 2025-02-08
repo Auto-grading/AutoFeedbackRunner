@@ -1,6 +1,7 @@
 name: Triggered Workflow
 on:
   repository_dispatch:
+    types: [run_workflow]
 
 jobs:
   run:
