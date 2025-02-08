@@ -1,0 +1,10 @@
+name: Triggered Workflow
+on:
+  repository_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print
+        run: echo "External workflow triggered!"
