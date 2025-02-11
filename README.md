@@ -56,7 +56,7 @@ You will see a line that looks like this where you can find the url and runner r
 
 Enter the URL and the Runner Register token when prompted by the setup script
 
-### 5. Start the runner
+### 4. Start the runner
 
 This will create a screen session for the runner:
 
