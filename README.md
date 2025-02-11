@@ -2,12 +2,24 @@
 
 ## Prerequisites
 
+### 0. System Requirements
+
 Before starting, make sure you have the following:
 
 - A Linux-based operating system
 - x86_64 Architecture
 - Python 3 Installed: ```sudo apt install python3```
 - Pip Installed: ```sudo apt install python3-pip```
+
+### 1. Give Runners Write Permissions
+
+Inside your organization on GitHub, go to:
+
+Settings > Actions > General
+
+If you scroll down, you should see a section called Workflow Permissions.
+
+In this section, select Read and write permissions and press Save.
 
 ## Steps
 
@@ -44,24 +56,14 @@ You will see a line that looks like this where you can find the url and runner r
 
 Enter the URL and the Runner Register token when prompted by the setup script
 
-### 4. Give the Runner Write Permissions
-
-Inside your organization on GitHub, go to:
-
-Settings > Actions > General
-
-If you scroll down, you should see a section called Workflow Permissions.
-
-In this section, select Read and write permissions and press Save.
-
 ### 5. Start the runner
 
 This will create a screen session for the runner:
 
-```start.sh```
+```./start.sh```
 
 ### When you want to stop the runner
 
 This will stop the runner's screen session:
 
-```stop.sh```
+```./stop.sh```
