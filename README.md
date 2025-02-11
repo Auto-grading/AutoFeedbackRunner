@@ -26,7 +26,15 @@ copy and paste your OpenAI API key after ```OPENAI_API_KEY=```
 
 ### 3. Configure the Runner
 
-Inside your organization on GitHub go to:
+On your runner's machine:
+
+```cd scripts```
+
+```./setup.sh```
+
+You will need to provide your organization's URL and runner register token.
+
+To find these, inside your organization on GitHub go to:
 
 Settings > Actions > Runners > New runner > New self-hosted runner
 
@@ -34,15 +42,19 @@ You will see a line that looks like this where you can find the url and runner r
 
 ```./config.sh --url <Organization URL> --token <Runner Register Token>```
 
-Back on your runner's machine:
+Enter the URL and the Runner Register token when prompted by the setup script
 
-```cd scripts```
+### 4. Give the Runner Write Permissions
 
-```./setup.sh```
+Inside your organization on GitHub, go to:
 
-When prompted for the URL and runner register token, enter the url and token found from performing the steps above on GitHub
+Settings > Actions > General
 
-### 4. Start the runner
+If you scroll down, you should see a section called Workflow Permissions.
+
+In this section, select Read and write permissions and press Save.
+
+### 5. Start the runner
 
 This will create a screen session for the runner:
 
