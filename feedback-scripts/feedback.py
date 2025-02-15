@@ -83,7 +83,7 @@ def get_feedback_run_number(assignment_directory):
     return sum(entry.is_file() for entry in os.scandir(feedback_dir))
 
 
-# Function to create the feedback file and save the generated feedback
+# Function to create the feedback file
 def create_feedback_file(assignment_directory, content):
     # create feedback directory if it does not already exist
     feedback_dir = Path(f"{assignment_directory}/feedback")
@@ -93,6 +93,7 @@ def create_feedback_file(assignment_directory, content):
     feedback_file_path = os.path.join(feedback_dir, f"feedback-{get_feedback_run_number(assignment_directory)}.md")
     with open(feedback_file_path, "w") as feedback:
         feedback.write(content)
+    print("Created feedback file", feedback_file_path)
 
 
 # Main function
@@ -110,4 +111,5 @@ def main():
 
 
 if __name__ == "__main__":
+    print("Running Feedback Script")
     main()

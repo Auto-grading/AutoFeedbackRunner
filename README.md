@@ -43,7 +43,7 @@ Inside your organization on GitHub, go to:
 
 On your runner's machine:
 
-- ```cd scripts```
+- ```cd setup-scripts```
 
 - ```./setup.sh```
 

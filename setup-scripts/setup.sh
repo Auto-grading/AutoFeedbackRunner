@@ -9,7 +9,7 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-# create the oython virtual environment for running the auto feedback script
+# create the oython virtual environment for running the auto feedback-scripts script
 python3 -m venv "$PARENT_DIR/feedback_venv"
 
 # activate the venv
