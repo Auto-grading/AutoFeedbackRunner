@@ -160,7 +160,9 @@ def main():
     feedback = get_gpt_feedback(readme, student_code)
     print("Successfully retrieved GPT Feedback!")
 
+    print("Creating feedback file...")
     create_feedback_file(repo_path, feedback)
+    print("Pushing feedback file...")
 
 
 if __name__ == "__main__":
