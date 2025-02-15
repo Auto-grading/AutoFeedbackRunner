@@ -56,14 +56,30 @@ You will see a line that looks like this where you can find the url and runner r
 
 Enter the URL and the Runner Register token when prompted by the setup script
 
-### 4. Start the runner
+### 4. Start/Stop the Runner
+
+#### Start
 
 This will create a screen session for the runner:
 
 ```./start.sh```
 
-### When you want to stop the runner
+#### Stop
 
 This will stop the runner's screen session:
 
 ```./stop.sh```
+
+### 5. Running the Workflow in the Student's Repository
+
+In the root directory of this cloned repository:
+
+Copy the file ```.github/workflows/auto_feedback.yml``` into the student's repository
+
+Inside the student's repository:
+
+Click on the issues tab
+
+Create a new issue. This will run the workflow. 
+
+The runner will get the feedback via the OpenAI API and push it to the student's repository in the ```feedback``` folder
