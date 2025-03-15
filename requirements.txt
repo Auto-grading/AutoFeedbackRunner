@@ -3,3 +3,6 @@ python-dotenv
 
 # Required for interacting with the OpenAI API
 openai
+
+# Required for querying the OPen Web UI API
+requests

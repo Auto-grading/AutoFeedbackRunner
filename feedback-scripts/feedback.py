@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 import openai
+import requests
 from dotenv import load_dotenv, find_dotenv
 from openai import OpenAI
 
@@ -82,12 +83,12 @@ def get_gpt_feedback(problem_description, code):
     problem = f"Here is the problem description:\n{problem_description}"
     solution = f"Here is the student's code:\n{code}"
 
-    gpt_model = os.getenv("GPT_MODEL")
+    gpt_model = os.getenv("MODEL")
     if gpt_model is None:
         raise RuntimeError("No GPT_MODEL set in .env file")
 
     try:
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        client = OpenAI(api_key=os.getenv("API_KEY"))
 
         # send the message to the OpenAI API
         response = client.chat.completions.create(
@@ -105,6 +106,38 @@ def get_gpt_feedback(problem_description, code):
 
     except openai.APIError as e:
         raise RuntimeError(f"OpenAI API error: {e}")
+
+
+def get_ai_feedback(problem_description, code):
+    """
+    Gets feedback from the AI model self-hosted with Open Web UI
+
+    Args:
+        problem_description (str): description of the problem
+        code (str): the student's solution
+
+    Returns:
+        str: the feedback returned by the AI
+    """
+    problem = f"Here is the problem description:\n{problem_description}"
+    solution = f"Here is the student's code:\n{code}"
+
+    open_web_ui_url = os.getenv("OPEN_WEB_UI_URL")
+    headers = {
+        "Authorization": f"Bearer {os.getenv("API_KEY")}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": os.getenv("MODEL"),
+        "messages": [
+            {"role": "system", "content": FEEDBACK_INSTRUCTIONS},
+            {"role": "user", "content": problem},
+            {"role": "user", "content": solution}
+        ],
+    }
+
+    response = requests.post(open_web_ui_url, headers=headers, json=payload)
+    return response.json()["choices"][0]["message"]["content"]
 
 
 def get_feedback_run_number(assignment_directory):
@@ -156,9 +189,9 @@ def main():
     print("Getting the student's code...")
     student_code = get_student_code(repo_path)
 
-    print("Requesting GPT Feedback...")
-    feedback = get_gpt_feedback(readme, student_code)
-    print("Successfully retrieved GPT Feedback!")
+    print("Requesting Feedback...")
+    feedback = get_ai_feedback(readme, student_code)
+    print("Successfully retrieved Feedback!")
 
     print("Creating feedback file...")
     create_feedback_file(repo_path, feedback)
